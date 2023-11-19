@@ -1,0 +1,22 @@
+One isue I ran into was an unresolved external symbol regarding the class member m_delimiter. I think this is because it was uninitialized; After initializing it outside of the class definition, I was able to fix the issue
+
+Another issue i ran into was how to find the position of the next delimiter after extracting the first substring. I was not able to make any changes to the original string so when the first delimiter was reached I didn't know what to do to find the next one. What I ended up doing was this. 
+
+
+	//first I saved the string as it is to a temporary string and set my begin variable to 0. Everytime next_pos was updated I used my reduce function to erase everything from the beginning to the position of next_pos
+	std::string temp = str;
+	size_t begin = 0u;
+	reduce(temp, 0u, next_pos);
+
+	//erases everything from beginning to end
+void reduce(std::string& str, const size_t& begin, const size_t end)
+{
+	str = str.erase(begin, end);
+	
+}
+//next I set my end varibable to the first occurance of the delimiter of the modified temp string variable
+size_t end = temp.find_first_of(m_delimiter);
+
+//and set the token to the substring of the beginning and the end
+std::string token = temp.substr(begin, (end-begin));
+
